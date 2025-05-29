@@ -1,30 +1,22 @@
-use ggez::*;
+use game::{central::game_modules, events::event_handler};
+use ggez::{conf::Conf, *};
 
-struct State {
-    dt: std::time::Duration,
-}
-
-impl ggez::event::EventHandler<GameError> for State {
-    fn update(&mut self, ctx: &mut Context) -> GameResult {
-        self.dt = ctx.time.delta();
-        Ok(())
+mod game {
+    pub mod events {
+        pub mod event_handler;
     }
-    fn draw(&mut self, ctx: &mut Context) -> GameResult {
-        println!("Hello!! {}ns", self.dt.as_nanos());
-        Ok(())
+    pub mod central {
+        pub mod game_modules;
     }
 }
 
 fn main() {
-    println!("Starting");
-    let state: State = State {
-        dt: std::time::Duration::new(0, 0),
-    };
-    let c = conf::Conf::new();
-    let (ctx, event_loop) = ContextBuilder::new("hello_ggez", "Waldy")
+    let c: Conf = conf::Conf::new();
+    let (mut ctx, event_loop) = ContextBuilder::new("holychess", "Waldy")
         .default_conf(c)
         .build()
-        .unwrap();
+        .expect("Failed to run holychess");
 
-    event::run(ctx, event_loop, state);
+    let game = game_modules::MyGame::new(&mut ctx);
+    event::run(ctx, event_loop, game);
 }
