@@ -8,10 +8,10 @@ pub struct MyGame {
 
 impl MyGame {
     pub fn new(_ctx: &mut Context) -> MyGame {
-        let myGame: MyGame = MyGame {
-            dt: Duration::new(0, 0),
-        };
 
-        myGame
+
+        MyGame {
+            dt: Duration::new(0, 0),
+        }
     }
 }

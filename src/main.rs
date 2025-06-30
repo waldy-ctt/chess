@@ -1,4 +1,4 @@
-use game::{central::game_modules, events::event_handler};
+use game::{central::game_modules};
 use ggez::{conf::Conf, *};
 
 mod game {
@@ -7,6 +7,14 @@ mod game {
     }
     pub mod central {
         pub mod game_modules;
+    }
+    pub mod assets {
+        pub mod draws {
+            pub mod chess_boards;
+        }
+        pub mod canvas {
+            pub mod main_scene;
+        }
     }
 }
 
