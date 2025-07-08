@@ -1,0 +1,2 @@
+[alias]
+test-game = "run -- sh -c 'cargo build && cargo run'"

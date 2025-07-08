@@ -1,4 +1,4 @@
-use game::{central::game_modules};
+use game::central::game_modules;
 use ggez::{conf::Conf, *};
 
 mod game {

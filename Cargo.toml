@@ -3,6 +3,8 @@ name = "chess"
 version = "0.1.0"
 edition = "2021"
 authors = ["Waldy"]
+build = "build.rs"
 
 [dependencies]
 ggez = "0.9.3"
+
