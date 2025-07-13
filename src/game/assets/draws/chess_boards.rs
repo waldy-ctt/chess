@@ -1,5 +1,6 @@
 use ggez::{
-    graphics::{self, Color, Mesh, MeshBuilder, Text},
+    glam::Vec2,
+    graphics::{self, Color, Mesh, MeshBuilder, Text, TextLayout},
     Context,
 };
 
@@ -44,6 +45,8 @@ pub fn create_labels(ctx: &mut Context) -> (Vec<Text>, Vec<Text>) {
         let mut text = Text::new(ALPHABET[col as usize].to_string());
         text.set_font("joystix_mono");
         text.set_scale(SQUARE_SIZE);
+        text.fragments_mut()[0].color = Some(Color::from_rgba(245, 245, 245, 1));
+        // TODO: make this color a system white color
         col_labels.push(text);
     }
 
@@ -52,6 +55,7 @@ pub fn create_labels(ctx: &mut Context) -> (Vec<Text>, Vec<Text>) {
         let mut text = Text::new((BOARD_SIZE - row).to_string()); // 8 down to 1
         text.set_font("joystix_mono");
         text.set_scale(SQUARE_SIZE);
+        text.fragments_mut()[0].color = Some(Color::from_rgba(245, 245, 245, 1));
         row_labels.push(text);
     }
 
