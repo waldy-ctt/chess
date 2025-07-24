@@ -3,6 +3,7 @@ use ggez::{conf::Conf, *};
 
 mod game {
     pub mod events {
+        pub mod chess_piece_event;
         pub mod event_handler;
     }
     pub mod central {
@@ -11,6 +12,7 @@ mod game {
     pub mod assets {
         pub mod draws {
             pub mod chess_boards;
+            pub mod chess_unit;
         }
         pub mod canvas {
             pub mod main_scene;
