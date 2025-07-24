@@ -15,6 +15,9 @@ mod game {
         pub mod canvas {
             pub mod main_scene;
         }
+        pub mod shared {
+            pub mod shared;
+        }
     }
 }
 

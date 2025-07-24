@@ -1,8 +1,9 @@
 use ggez::{
-    glam::Vec2,
-    graphics::{self, Color, Mesh, MeshBuilder, Text, TextLayout},
+    graphics::{self, Mesh, MeshBuilder, Text},
     Context,
 };
+
+use crate::game::assets::shared::shared;
 
 const SQUARE_SIZE: f32 = 50.0; // Size of each square in pixel
 const BOARD_SIZE: i8 = 8; // 8x8
@@ -17,9 +18,9 @@ pub fn chess_boards(ctx: &mut Context) -> Mesh {
             let x = (col - 1) as f32 * SQUARE_SIZE;
             let y = (row - 1) as f32 * SQUARE_SIZE;
             let color = if (row + col) % 2 == 0 {
-                Color::WHITE
+                shared::constants::SYSTEM_WHITE
             } else {
-                Color::BLACK
+                shared::constants::SYSTEM_BLACK
             };
 
             builder
@@ -36,7 +37,7 @@ pub fn chess_boards(ctx: &mut Context) -> Mesh {
     Mesh::from_data(ctx, mesh_data)
 }
 
-pub fn create_labels(ctx: &mut Context) -> (Vec<Text>, Vec<Text>) {
+pub fn create_labels(_ctx: &mut Context) -> (Vec<Text>, Vec<Text>) {
     let mut row_labels = Vec::new();
     let mut col_labels = Vec::new();
 
@@ -45,8 +46,7 @@ pub fn create_labels(ctx: &mut Context) -> (Vec<Text>, Vec<Text>) {
         let mut text = Text::new(ALPHABET[col as usize].to_string());
         text.set_font("joystix_mono");
         text.set_scale(SQUARE_SIZE);
-        text.fragments_mut()[0].color = Some(Color::from_rgba(245, 245, 245, 1));
-        // TODO: make this color a system white color
+        text.fragments_mut()[0].color = Some(shared::constants::SYSTEM_WHITE);
         col_labels.push(text);
     }
 
@@ -55,7 +55,7 @@ pub fn create_labels(ctx: &mut Context) -> (Vec<Text>, Vec<Text>) {
         let mut text = Text::new((BOARD_SIZE - row).to_string()); // 8 down to 1
         text.set_font("joystix_mono");
         text.set_scale(SQUARE_SIZE);
-        text.fragments_mut()[0].color = Some(Color::from_rgba(245, 245, 245, 1));
+        text.fragments_mut()[0].color = Some(shared::constants::SYSTEM_WHITE);
         row_labels.push(text);
     }
 
