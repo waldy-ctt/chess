@@ -1,47 +1,11 @@
-use std::fmt::format;
+use crate::game::assets::shared::shared;
+use ggez::{graphics::Image, Context};
 
-use ggez::{
-    graphics::{Image, Mesh},
-    Context,
-};
-
-enum ChessUnit {
-    King,
-    Queen,
-    Rook,
-    Bishop,
-    Knight,
-    Pawn,
-}
-
-enum ChessColor {
-    Black,
-    White,
-}
-
-impl ChessUnit {
-    fn to_string(&self) -> &'static str {
-        match self {
-            Self::King => "king",
-            Self::Queen => "queen",
-            Self::Rook => "rook",
-            Self::Bishop => "bishop",
-            Self::Knight => "knight",
-            Self::Pawn => "pawn",
-        }
-    }
-}
-
-impl ChessColor {
-    fn to_string(&self) -> &'static str {
-        match self {
-            Self::Black => "blue",
-            Self::White => "white",
-        }
-    }
-}
-
-pub fn chess_unit(chess_unit: ChessUnit, chess_color: ChessColor, ctx: &mut Context) -> Mesh {
+pub fn chess_unit(
+    chess_unit: shared::constants::ChessUnit,
+    chess_color: shared::constants::ChessColor,
+    ctx: &mut Context,
+) -> Image {
     let path: String = format!(
         "/images/{}-{}.png",
         chess_unit.to_string(),
@@ -55,4 +19,6 @@ pub fn chess_unit(chess_unit: ChessUnit, chess_color: ChessColor, ctx: &mut Cont
         )
         .as_str(),
     );
+
+    image
 }
