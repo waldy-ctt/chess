@@ -1,5 +1,5 @@
 use ggez::{
-    graphics::{self, Mesh, MeshBuilder, Text},
+    graphics::{self, Color, Mesh, MeshBuilder, Text},
     Context,
 };
 
@@ -64,4 +64,16 @@ pub fn get_each_square_size() -> f32 {
 
 pub fn get_board_size() -> i8 {
     sharedConst::BOARD_SIZE
+}
+
+pub fn get_square_type(position: [usize; 2]) -> Color {
+    let color: Color;
+
+    if (position[0] + position[1]) % 2 == 0 {
+        color = sharedConst::SYSTEM_WHITE;
+    } else {
+        color = sharedConst::SYSTEM_BLACK;
+    }
+
+    color
 }

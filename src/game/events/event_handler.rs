@@ -1,13 +1,14 @@
 use crate::game::{
     assets::{
-        canvas::main_scene::main_scene,
+        canvas::main_scene::{self, move_chess_unit, new_game},
         draws::chess_boards::{get_board_size, get_each_square_size},
+        shared::shared::constants::{ChessColor, ChessUnit},
     },
     central::game_modules,
 };
 use ggez::{
     event::{EventHandler, MouseButton},
-    graphics::Canvas,
+    graphics::{self, Canvas},
     Context, GameError, GameResult,
 };
 
@@ -17,7 +18,7 @@ impl EventHandler<GameError> for game_modules::MyGame {
     }
 
     fn draw(&mut self, _ctx: &mut Context) -> Result<(), GameError> {
-        let main_scene: Canvas = main_scene(_ctx);
+        let main_scene: Canvas = new_game(_ctx);
         main_scene.finish(_ctx)?;
         Ok(())
     }
@@ -43,8 +44,7 @@ impl EventHandler<GameError> for game_modules::MyGame {
     ) -> Result<(), GameError> {
         println!("Mouse Clicked at:\nX: {_x}\nY: {_y}\nButton: {_button:?}");
 
-        // NOTE: Idea: Check if clicked position falled into board position, then map it with the
-        // chess unit
+        let mut canvas = graphics::Canvas::from_frame(_ctx, None);
 
         if _button == MouseButton::Left {
             if let Some((row, col)) = self.get_square_from_mouse(_x, _y) {
@@ -59,6 +59,17 @@ impl EventHandler<GameError> for game_modules::MyGame {
                     self.selected_square = Some((row, col));
                 } else if let Some((from_row, from_col)) = self.selected_square {
                     // TODO: Validate move according to chess rules
+
+                    move_chess_unit(
+                        _ctx,
+                        &mut canvas,
+                        ChessUnit::Rook,
+                        ChessColor::Black,
+                        [from_row, from_col],
+                        [row, col],
+                    );
+                    canvas.finish(_ctx)?;
+
                     println!(
                         "Moving to empty square ({}, {}) from ({}, {})",
                         row, col, from_row, from_col
