@@ -19,60 +19,89 @@ impl MyGame {
         );
 
         let mut board = [[None; 8]; 8];
+        // ===== Use when drawed
+        // board[0] = [
+        //     Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::White)),
+        //     Some((
+        //         sharedConst::ChessUnit::Knight,
+        //         sharedConst::ChessColor::White,
+        //     )),
+        //     Some((
+        //         sharedConst::ChessUnit::Bishop,
+        //         sharedConst::ChessColor::White,
+        //     )),
+        //     Some((
+        //         sharedConst::ChessUnit::Queen,
+        //         sharedConst::ChessColor::White,
+        //     )),
+        //     Some((sharedConst::ChessUnit::King, sharedConst::ChessColor::White)),
+        //     Some((
+        //         sharedConst::ChessUnit::Bishop,
+        //         sharedConst::ChessColor::White,
+        //     )),
+        //     Some((
+        //         sharedConst::ChessUnit::Knight,
+        //         sharedConst::ChessColor::White,
+        //     )),
+        //     Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::White)),
+        // ];
+        // for col in 0..8 {
+        //     board[1][col] = Some((sharedConst::ChessUnit::Pawn, sharedConst::ChessColor::White));
+        //     board[6][col] = Some((sharedConst::ChessUnit::Pawn, sharedConst::ChessColor::Black));
+        // }
+        // board[7] = [
+        //     Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+        //     Some((
+        //         sharedConst::ChessUnit::Knight,
+        //         sharedConst::ChessColor::Black,
+        //     )),
+        //     Some((
+        //         sharedConst::ChessUnit::Bishop,
+        //         sharedConst::ChessColor::Black,
+        //     )),
+        //     Some((
+        //         sharedConst::ChessUnit::Queen,
+        //         sharedConst::ChessColor::Black,
+        //     )),
+        //     Some((sharedConst::ChessUnit::King, sharedConst::ChessColor::Black)),
+        //     Some((
+        //         sharedConst::ChessUnit::Bishop,
+        //         sharedConst::ChessColor::Black,
+        //     )),
+        //     Some((
+        //         sharedConst::ChessUnit::Knight,
+        //         sharedConst::ChessColor::Black,
+        //     )),
+        //     Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+        // ];
+        // ====
+
+        //---- remove when drawed
         board[0] = [
-            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::White)),
-            Some((
-                sharedConst::ChessUnit::Knight,
-                sharedConst::ChessColor::White,
-            )),
-            Some((
-                sharedConst::ChessUnit::Bishop,
-                sharedConst::ChessColor::White,
-            )),
-            Some((
-                sharedConst::ChessUnit::Queen,
-                sharedConst::ChessColor::White,
-            )),
-            Some((sharedConst::ChessUnit::King, sharedConst::ChessColor::White)),
-            Some((
-                sharedConst::ChessUnit::Bishop,
-                sharedConst::ChessColor::White,
-            )),
-            Some((
-                sharedConst::ChessUnit::Knight,
-                sharedConst::ChessColor::White,
-            )),
-            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::White)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
         ];
         for col in 0..8 {
-            board[1][col] = Some((sharedConst::ChessUnit::Pawn, sharedConst::ChessColor::White));
-            board[6][col] = Some((sharedConst::ChessUnit::Pawn, sharedConst::ChessColor::Black));
+            board[1][col] = Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black));
+            board[6][col] = Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black));
         }
         board[7] = [
             Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
-            Some((
-                sharedConst::ChessUnit::Knight,
-                sharedConst::ChessColor::Black,
-            )),
-            Some((
-                sharedConst::ChessUnit::Bishop,
-                sharedConst::ChessColor::Black,
-            )),
-            Some((
-                sharedConst::ChessUnit::Queen,
-                sharedConst::ChessColor::Black,
-            )),
-            Some((sharedConst::ChessUnit::King, sharedConst::ChessColor::Black)),
-            Some((
-                sharedConst::ChessUnit::Bishop,
-                sharedConst::ChessColor::Black,
-            )),
-            Some((
-                sharedConst::ChessUnit::Knight,
-                sharedConst::ChessColor::Black,
-            )),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
+            Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
             Some((sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)),
         ];
+        // ----
 
         let board_width = sharedConst::SQUARE_SIZE * sharedConst::BOARD_SIZE as f32;
         let screen_size = _ctx.gfx.drawable_size();

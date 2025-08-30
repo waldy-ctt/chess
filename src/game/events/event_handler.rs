@@ -1,14 +1,13 @@
 use crate::game::{
     assets::{
-        canvas::main_scene::{move_chess_unit, new_game},
+        canvas::main_scene::new_game,
         draws::chess_boards::{get_board_size, get_each_square_size},
-        shared::shared::constants::{ChessColor, ChessUnit},
     },
     central::game_modules,
 };
 use ggez::{
     event::{EventHandler, MouseButton},
-    graphics::{self, Canvas},
+    graphics::Canvas,
     Context, GameError, GameResult,
 };
 
