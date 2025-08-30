@@ -103,4 +103,53 @@ impl MyGame {
             None
         }
     }
+
+    pub fn move_piece(&mut self, from: (usize, usize), to: (usize, usize)) -> bool {
+        let (from_row, from_col) = from;
+        let (to_row, to_col) = to;
+        if self.board[from_row][from_col].is_some() && self.board[to_row][to_col].is_none() {
+            println!(
+                "Moving {}-{:?} from ({}, {}) to ({}, {})",
+                self.board[from_row][from_col].unwrap().0.to_string(),
+                self.board[from_row][from_col].unwrap().1,
+                from_row,
+                from_col,
+                to_row,
+                to_col
+            );
+            self.board[to_row][to_col] = self.board[from_row][from_col];
+            self.board[from_row][from_col] = None;
+            true
+        } else {
+            println!(
+                "Invalid move from ({}, {}) to ({}, {})",
+                from_row, from_col, to_row, to_col
+            );
+            false
+        }
+    }
+
+    pub fn handle_mouse_click(&mut self, x: f32, y: f32) {
+        if let Some((row, col)) = self.get_square_from_mouse(x, y) {
+            if let Some((piece, color)) = self.board[row][col] {
+                println!(
+                    "Selected {}-{:?} at square ({}, {})",
+                    piece.to_string(),
+                    color,
+                    row,
+                    col
+                );
+                self.selected_square = Some((row, col));
+            } else if let Some((from_row, from_col)) = self.selected_square {
+                self.move_piece((from_row, from_col), (row, col));
+                self.selected_square = None;
+            } else {
+                println!("Clicked empty square ({}, {})", row, col);
+                self.selected_square = None;
+            }
+        } else {
+            println!("Clicked outside board at ({}, {})", x, y);
+            self.selected_square = None;
+        }
+    }
 }

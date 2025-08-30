@@ -1,9 +1,14 @@
-use crate::game::assets::{
-    draws::{
-        chess_boards::{self, chess_boards, create_labels, get_board_size, get_each_square_size},
-        chess_unit::{self, chess_unit},
+use crate::game::{
+    assets::{
+        draws::{
+            chess_boards::{
+                self, chess_boards, create_labels, get_board_size, get_each_square_size,
+            },
+            chess_unit::chess_unit,
+        },
+        shared::shared::{self},
     },
-    shared::shared::{self},
+    central::game_modules::MyGame,
 };
 use ggez::{
     graphics::{self, Canvas, DrawParam, Drawable, Image, Mesh, MeshBuilder, Rect},
@@ -42,7 +47,7 @@ fn get_chess_board_position(ctx: &mut Context) -> BoardPosition {
     }
 }
 
-pub fn new_game(ctx: &mut Context) -> Canvas {
+pub fn new_game(ctx: &mut Context, game: &MyGame) -> Canvas {
     let chess_board: Mesh = chess_boards(ctx);
     let (row_labels, col_labels) = create_labels(ctx);
 
@@ -101,73 +106,64 @@ pub fn new_game(ctx: &mut Context) -> Canvas {
 
     for row in 0..chess_boards::get_board_size() {
         for col in 0..chess_boards::get_board_size() {
-            // let (piece, color) = match (row, col) {
-            //     // White pieces (rank 1: major pieces, rank 2: pawns)
-            //     (0, 0) | (0, 7) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::White),
-            //     (0, 1) | (0, 6) => (
-            //         sharedConst::ChessUnit::Knight,
-            //         sharedConst::ChessColor::White,
-            //     ),
-            //     (0, 2) | (0, 5) => (
-            //         sharedConst::ChessUnit::Bishop,
-            //         sharedConst::ChessColor::White,
-            //     ),
-            //     (0, 3) => (
-            //         sharedConst::ChessUnit::Queen,
-            //         sharedConst::ChessColor::White,
-            //     ),
-            //     (0, 4) => (sharedConst::ChessUnit::King, sharedConst::ChessColor::White),
-            //     (1, _) => (sharedConst::ChessUnit::Pawn, sharedConst::ChessColor::White),
-            //     // Black pieces (rank 8: major pieces, rank 7: pawns)
-            //     (7, 0) | (7, 7) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-            //     (7, 1) | (7, 6) => (
-            //         sharedConst::ChessUnit::Knight,
-            //         sharedConst::ChessColor::Black,
-            //     ),
-            //     (7, 2) | (7, 5) => (
-            //         sharedConst::ChessUnit::Bishop,
-            //         sharedConst::ChessColor::Black,
-            //     ),
-            //     (7, 3) => (
-            //         sharedConst::ChessUnit::Queen,
-            //         sharedConst::ChessColor::Black,
-            //     ),
-            //     (7, 4) => (sharedConst::ChessUnit::King, sharedConst::ChessColor::Black),
-            //     (6, _) => (sharedConst::ChessUnit::Pawn, sharedConst::ChessColor::Black),
-            //     // Empty squares
-            //     _ => continue, // Skip drawing for empty squares
-            // };
-            // TODO: Uncomment above when drawed all piece and color
-
-            let (piece, color) = match (row, col) {
-                // White pieces (rank 1: major pieces, rank 2: pawns)
-                (0, 0) | (0, 7) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (0, 1) | (0, 6) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (0, 2) | (0, 5) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (0, 3) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (0, 4) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (1, _) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                // Black pieces (rank 8: major pieces, rank 7: pawns)
-                (7, 0) | (7, 7) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (7, 1) | (7, 6) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (7, 2) | (7, 5) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (7, 3) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (7, 4) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                (6, _) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
-                // Empty squares
-                _ => continue, // Skip drawing for empty squares
-            };
-
-            let image: Image = chess_unit(piece, color, ctx);
-            let offset: [f32; 2] = get_image_offset(&image, ctx);
-            canvas.draw(
-                &image,
-                DrawParam::new().dest([
-                    board_position.x_start + (col as f32 * get_each_square_size()) + offset[0],
-                    board_position.y_start + (row as f32 * get_each_square_size()) + offset[1],
-                ]),
-            )
+            if let Some((piece, color)) = game.board[row as usize][col as usize] {
+                // ============ REMOVE WHEN DRAWED
+                let (piece, color) = match (row, col) {
+                    (0, 0) | (0, 7) => {
+                        (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)
+                    }
+                    (0, 1) | (0, 6) => {
+                        (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)
+                    }
+                    (0, 2) | (0, 5) => {
+                        (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)
+                    }
+                    (0, 3) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
+                    (0, 4) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
+                    (1, _) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
+                    (7, 0) | (7, 7) => {
+                        (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)
+                    }
+                    (7, 1) | (7, 6) => {
+                        (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)
+                    }
+                    (7, 2) | (7, 5) => {
+                        (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black)
+                    }
+                    (7, 3) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
+                    (7, 4) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
+                    (6, _) => (sharedConst::ChessUnit::Rook, sharedConst::ChessColor::Black),
+                    _ => continue,
+                };
+                // ============ REMOVE WHEN DRAWED
+                let image: Image = chess_unit(piece, color, ctx);
+                let offset: [f32; 2] = get_image_offset(&image, ctx);
+                canvas.draw(
+                    &image,
+                    DrawParam::new().dest([
+                        board_position.x_start + (col as f32 * get_each_square_size()) + offset[0],
+                        board_position.y_start + (row as f32 * get_each_square_size()) + offset[1],
+                    ]),
+                )
+            }
         }
+    }
+
+    // Highlight selected square
+    if let Some((row, col)) = game.selected_square {
+        let highlight = Mesh::new_rectangle(
+            ctx,
+            graphics::DrawMode::fill(),
+            Rect::new(
+                board_position.x_start + (col as f32 * get_each_square_size()),
+                board_position.y_start + (row as f32 * get_each_square_size()),
+                get_each_square_size(),
+                get_each_square_size(),
+            ),
+            sharedConst::SYSTEM_WHITE,
+        )
+        .unwrap();
+        canvas.draw(&highlight, DrawParam::new());
     }
 
     canvas

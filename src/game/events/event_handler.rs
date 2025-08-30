@@ -1,6 +1,6 @@
 use crate::game::{
     assets::{
-        canvas::main_scene::{self, move_chess_unit, new_game},
+        canvas::main_scene::{move_chess_unit, new_game},
         draws::chess_boards::{get_board_size, get_each_square_size},
         shared::shared::constants::{ChessColor, ChessUnit},
     },
@@ -18,7 +18,7 @@ impl EventHandler<GameError> for game_modules::MyGame {
     }
 
     fn draw(&mut self, _ctx: &mut Context) -> Result<(), GameError> {
-        let main_scene: Canvas = new_game(_ctx);
+        let main_scene: Canvas = new_game(_ctx, self);
         main_scene.finish(_ctx)?;
         Ok(())
     }
@@ -42,50 +42,10 @@ impl EventHandler<GameError> for game_modules::MyGame {
         _x: f32,
         _y: f32,
     ) -> Result<(), GameError> {
-        println!("Mouse Clicked at:\nX: {_x}\nY: {_y}\nButton: {_button:?}");
-
-        let mut canvas = graphics::Canvas::from_frame(_ctx, None);
-
         if _button == MouseButton::Left {
-            if let Some((row, col)) = self.get_square_from_mouse(_x, _y) {
-                if let Some((piece, color)) = self.board[row][col] {
-                    println!(
-                        "Selected {}-{:?} at square ({}, {})",
-                        piece.to_string(),
-                        color,
-                        row,
-                        col
-                    );
-                    self.selected_square = Some((row, col));
-                } else if let Some((from_row, from_col)) = self.selected_square {
-                    // TODO: Validate move according to chess rules
-
-                    move_chess_unit(
-                        _ctx,
-                        &mut canvas,
-                        ChessUnit::Rook,
-                        ChessColor::Black,
-                        [from_row, from_col],
-                        [row, col],
-                    );
-                    canvas.finish(_ctx)?;
-
-                    println!(
-                        "Moving to empty square ({}, {}) from ({}, {})",
-                        row, col, from_row, from_col
-                    );
-                    self.board[row][col] = self.board[from_row][from_col];
-                    self.board[from_row][from_col] = None;
-                    self.selected_square = None;
-                } else {
-                    println!("Clicked empty square ({}, {})", row, col);
-                    self.selected_square = None;
-                }
-            } else {
-                println!("Clicked outside board at ({}, {})", _x, _y);
-                self.selected_square = None;
-            }
+            self.handle_mouse_click(_x, _y);
         }
+
         Ok(())
     }
 }
